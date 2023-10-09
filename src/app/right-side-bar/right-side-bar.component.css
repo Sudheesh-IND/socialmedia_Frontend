@@ -1,12 +1,12 @@
 .profile-pic{
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background-color: aliceblue;
 }
 .profile-pic img{
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
 }
 input{
@@ -39,6 +39,19 @@ h5{
 }
 .header{
     display: none;
+}
+.name-portion{
+    transform: scale(90%);
+}
+.name-portion:hover{
+   background-color: white;
+   padding-top: 10px;
+   border-radius: 2.3rem;
+   transform: scale(100%);
+   transition: 0.4s ease;
+}
+.name-portion:hover h5{
+    color: #194954;
 }
 @media screen and (max-width:501px) {
 

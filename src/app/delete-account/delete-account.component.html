@@ -24,15 +24,15 @@
                  </form>
                  <div *ngIf="isDeletionStarted">
                     <div>
-                        <h5>Your account is being deleted....</h5>
+                        <h5 style="color: #194954;letter-spacing: 3px;">Your account is being deleted....</h5>
                     </div>
-                    <div class="spinner-border" role="status" style="color: #194954;">
+                    <div class="spinner-border mt-4" role="status" style="color: #194954;">
                        
                       </div>
                  </div>
             </div>
-            <div class="alert alert-danger" style="margin-top: 100px;" role="alert" *ngIf="isDeleted">
-               <h3>Account deleted Successfully...</h3>
+            <div class="alert alert-danger" style="margin-top: 100px;color: #194954;" role="alert" *ngIf="isDeleted">
+               <h3 class="mt-4">Account deleted Successfully...</h3>
               </div>
         </div>
         <div class="col-md-4"></div>

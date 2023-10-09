@@ -9,25 +9,28 @@ import { ApiService } from '../services/api.service';
 })
 export class OtherProfileComponent implements OnInit{
 
-  profileId:String=''
-  profileDetails:any={}
+  profileId:String='' //holding id of other peple
+  profileDetails:any={} //holding profile details
   noPosts:boolean=false
-  totalPosts:any={}
+  totalPosts:any={} //holding post details
   isSameUser:boolean=true
   isFollowing=true
   unFollowBtn:boolean=false
   profilepic:String=''
   isSettingsShown:Boolean=false
-  userId:any=window.localStorage.getItem('InstaFlixId')
+  userId:any=window.localStorage.getItem('InstaFlixId') //taking usrid freom localstorage
   constructor(private activatedRoute:ActivatedRoute,private api:ApiService,private route:Router){}
   ngOnInit(): void {
    this.getOtherDetails()
   
+   //follow button will not be present for the same user
    if(this.userId==this.profileId){
     this.isSameUser=false
    }
     
   }
+
+  //getting detials of a specific person
   getOtherDetails(){
     let userId=window.localStorage.getItem('InstaFlixId')
     
@@ -43,6 +46,9 @@ export class OtherProfileComponent implements OnInit{
         this.totalPosts=response.details.posts
         console.log(this.totalPosts)
        
+      },(response:any)=>{
+        //if no response page not found
+        this.route.navigateByUrl('**')
       })
       this.api.getDetails(userId).subscribe((response:any)=>{
         console.log(response.details.Followers)
@@ -55,9 +61,13 @@ export class OtherProfileComponent implements OnInit{
                  
             }
           }
+      },(response:any)=>{
+        //if no response page not found
+        this.route.navigateByUrl('**')
       })
     })
   }
+  //fuctionns in sidebar
   toHome(){
     let userId=window.localStorage.getItem('InstaFlixId')
    this.route.navigateByUrl(`social/home/${userId}`)
@@ -77,6 +87,7 @@ export class OtherProfileComponent implements OnInit{
     this.route.navigateByUrl(`social/myprofile/${userId}`)
 
   }
+  //following a user
   followUser(){
     let personalId=localStorage.getItem('InstaFlixId')
     this.api.followUser(personalId,this.profileId).subscribe((response:any)=>{
@@ -87,7 +98,7 @@ export class OtherProfileComponent implements OnInit{
       
     })
   }
-
+//unfollowing a user
   unFollow(){
     let userId=window.localStorage.getItem('InstaFlixId')
     this.api.unFollow(userId,this.profileId).subscribe((response:any)=>{

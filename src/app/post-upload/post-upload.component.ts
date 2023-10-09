@@ -27,18 +27,23 @@ export class PostUploadComponent implements OnInit{
     this.activatedRoute.params.subscribe((response:any)=>{
        this.userId=response.InstaId
     })
+    //for displaying the profilepic in sidebar
     this.api.getDetails(this.userId).subscribe((response:any)=>{
       this.profilepic=response.details.profilepic[0].path
+    },(response:any)=>{
+      //if no response page not found
+      this.route.navigateByUrl('**')
     })
   }
 
   onFileSelected(event:any){
     if(event.target.files.length>0){
       this.isUploading=true
-      const file=event.target.files[0]
-      const formData=new FormData
-      formData.append('file',file)
+      const file=event.target.files[0] //the files will be on 0 th position of files array in event.target
+      const formData=new FormData //formdata for adding the files
+      formData.append('file',file) //appending the file to the formdata
 
+      //calling the function
       this.api.uploadPost(formData,this.userId).subscribe((response:any)=>{
       console.log(response)
       if(response){

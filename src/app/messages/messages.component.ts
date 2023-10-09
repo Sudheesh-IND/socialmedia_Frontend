@@ -87,6 +87,9 @@ export class MessagesComponent implements OnInit{
       })
     }
 
+  },(response:any)=>{
+    //if no response page not found
+    this.route.navigateByUrl('**')
   })
   }
 
@@ -108,14 +111,15 @@ export class MessagesComponent implements OnInit{
 
   startMessage(person2:String){
      this.api.startMessage(this.userId,person2).subscribe((response:any)=>{
-      console.log(response)
-      this.getAllChatHeads()
+     this.route.navigateByUrl(`social/messages/${this.userId}`)
+     
       this.isStarting=true
       
       this.findChats(person2)
+     
       
      },(response:any)=>{
-      this.getAllChatHeads()
+      this.route.navigateByUrl(`social/messages/${this.userId}`)
       this.isStarting=true
     
       this.findChats(person2)
@@ -129,9 +133,11 @@ export class MessagesComponent implements OnInit{
         if(this.userId==response.details.person1){
           this.api.outGoing(response.details.person1,person2).subscribe((response:any)=>{
             console.log(response)
+            this.route.navigateByUrl(`social/messages/${this.userId}`)
           })
           this.api.inComming(response.details.person1,person2).subscribe((response:any)=>{
             console.log(response)
+            this.route.navigateByUrl(`social/messages/${this.userId}`)
           })
         }
       
@@ -166,7 +172,10 @@ export class MessagesComponent implements OnInit{
 
   //start sending messages
   sendMessage(recepientId:any){
-    
+
+    if(this.message==''){
+        
+    }else{
       this.api.findChats(this.userId,recepientId).subscribe((response:any)=>{
         console.log(response.details)
         if(response.details==null){
@@ -191,6 +200,9 @@ export class MessagesComponent implements OnInit{
         
         
       })
+    }
+    
+     
 
     
     }
@@ -271,7 +283,5 @@ export class MessagesComponent implements OnInit{
     
 
 }
-function getAllChatHeads() {
-  throw new Error('Function not implemented.');
-}
+
 

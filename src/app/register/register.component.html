@@ -26,7 +26,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="start-portion" >
-            <div class="col-md-6 form-portion" style="display: flex;text-align: center;justify-content: center;flex-direction: column;">
+            <div  *ngIf="!isRegistered"  class="col-md-6 form-portion" style="display: flex;text-align: center;justify-content: center;flex-direction: column;">
               
                     <form action="" [formGroup]="registerForm" (ngSubmit)="registerUser()">
                        <div class="text-center" style="width: 100%;height: auto;padding: 40px;
@@ -44,6 +44,18 @@
                        </div>
                     </form>
               
+
+            </div>
+            <div class="col-md-6 form-portion text-center" *ngIf="isRegistered" style="display: flex;text-align: center;justify-content: center;flex-direction: column;">
+                <div>
+                    <h4 style="letter-spacing: 4px;margin-bottom: 10px;color: #194954;">Account registered successfully please wait..</h4>
+                </div>
+                <div class="spinner-border mt-4" role="status" style="color: #194954;">
+
+                   
+                    
+                  </div>
+                  
 
             </div>
             <div class="col-md-6 main-part">

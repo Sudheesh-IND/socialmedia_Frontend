@@ -17,11 +17,13 @@ import { MessagesComponent } from './messages/messages.component';
 import { ProfileComponent } from './profile/profile.component';
 import { OtherProfileComponent } from './other-profile/other-profile.component';
 import { SearchPipe } from './pipes/search.pipe';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { DeleteAccountComponent } from './delete-account/delete-account.component';
 import { LogOutComponent } from './log-out/log-out.component';
 import { HeaderComponent } from './header/header.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 // import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap'; 
 
@@ -40,11 +42,13 @@ import { HeaderComponent } from './header/header.component';
         ProfileComponent,
         OtherProfileComponent,
         SearchPipe,
-        ResetPasswordComponent,
+      
         EditProfileComponent,
         DeleteAccountComponent,
         LogOutComponent,
         HeaderComponent,
+        PageNotFoundComponent,
+        ResetPasswordComponent,
        
   
   ],

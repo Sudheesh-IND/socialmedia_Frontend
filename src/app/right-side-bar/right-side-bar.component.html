@@ -8,9 +8,9 @@
         <input [(ngModel)]="searchTerm" type="text" placeholder="Search Here">
       </div>
     </div>
-    <div  style="background-color: #194954;margin-top: 20px;height:80%;border-radius: 2rem; box-shadow: 0 0 10px  rgba(0, 0, 0, 0.304);padding: 20px;">
+    <div id="side-id"  style="background-color: #194954;margin-top: 20px;height:80%;border-radius: 2rem; box-shadow: 0 0 10px  rgba(0, 0, 0, 0.304);padding: 20px;">
       <div class="row" >
-        <div routerLink="/social/profile/{{users._id}}" style="cursor: pointer;height: 80px;" class="mt-4 d-flex flex-row " *ngFor="let users of userDetails|search:searchTerm:'Name'">
+        <div id="{{users._id}}" routerLink="/social/profile/{{users._id}}" style="cursor: pointer;height: 80px;" class="mt-4 d-flex flex-row name-portion" *ngFor="let users of userDetails|search:searchTerm:'Name'">
          <div class="profile-pic">
                 <img src="http://localhost:5000/{{users.profilepic[0].path}}" alt="">
          </div>

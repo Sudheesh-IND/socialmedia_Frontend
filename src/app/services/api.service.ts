@@ -36,13 +36,13 @@ export class ApiService {
    //appending the token
    appendToken(){
     let token=localStorage.getItem('token')
-    console.log(token)
+   
     let headers=new HttpHeaders()
 
     if(token){
       headers=headers.append("shots-token",token)
       options.headers=headers
-      console.log(headers)
+      
     }
     return options
   }
@@ -149,13 +149,7 @@ export class ApiService {
     return this.http.get(`http://localhost:5000/social/getlikes/${filename}`,this.appendToken())
   }
 
-  //unliking a pic api call
-  unLike(filename:any,likeId:any){
-    const body={
-      likeId
-    }
-    return this.http.put(`http://localhost:5000/social/unlike/${filename}`,body,this.appendToken())
-  }
+ 
 
   //api call for deleting post
   deletePost(userId:any,filename:any){
@@ -214,6 +208,28 @@ export class ApiService {
       _id,followId
     }
     return this.http.put('http://localhost:5000/social/removepeoplewhofollow',body,this.appendToken())
+  }
+
+  //like adding to manipulate dom
+  individualLikes(filename:any,likeId:any){
+    const body={
+      filename,likeId
+    }
+    return this.http.post('http://localhost:5000/social/addindividuallikes',body,this.appendToken())
+  }
+
+  //getting the individual likes
+  getIndividualLikes(likeId:any){
+ 
+    return this.http.get(`http://localhost:5000/social/individual/${likeId}`,this.appendToken())
+  }
+
+  //change oassword
+  changePass(Email:any){
+    const body={
+      Email
+    }
+    return this.http.post('http://localhost:5000/social/changepass',body)
   }
 
 }

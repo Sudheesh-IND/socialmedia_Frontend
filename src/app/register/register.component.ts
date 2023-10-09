@@ -11,11 +11,12 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
 
   invalidDetails:string=''
+  isRegistered:boolean=false
 
   constructor(private fb:FormBuilder,private api:ApiService,private route:Router){}
 
   registerForm=this.fb.group({
-    Name:['',[Validators.required,Validators.pattern('[A-Za-z]*')]],
+    Name:['',[Validators.required]],
     Email:['',[Validators.required,Validators.email]],
     Password:['',[Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z/d$@$!%*?&].{8,}')]],
     pass2:['',[Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z/d$@$!%*?&].{8,}')]]
@@ -31,10 +32,15 @@ export class RegisterComponent {
       
       this.api.registerUser(Name,Email,Password).subscribe((response:any)=>{
          console.log(response)
+         this.isRegistered=true
   
+         setTimeout(() => {
+          this.route.navigateByUrl('social/login')
+          this.isRegistered=false
+          
+         }, 2000);
         
          
-         this.route.navigateByUrl('social/login')
       },(response:any)=>{
         this.invalidDetails=response.error.message;
         setTimeout(() => {

@@ -8,9 +8,12 @@ import { Router } from '@angular/router';
 })
 export class LogOutComponent implements OnInit{
 
+  
   constructor(private route:Router){}
   ngOnInit(): void {
     this.logOut()
+    
+ 
    
   }
 

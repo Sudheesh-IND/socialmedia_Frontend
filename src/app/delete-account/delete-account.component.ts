@@ -10,14 +10,14 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class DeleteAccountComponent {
 
-  isDeletionStarted:boolean=false
+  isDeletionStarted:boolean=false 
   isDeleted:boolean=false
-  userId:String=''
+  userId:String='' //variable for holding user id
 
   constructor(private api:ApiService,private activatedRoute:ActivatedRoute,private fb:FormBuilder,private route:Router){}
 
 
-
+//code for deleting the account
   deleteAccount(){
     this.activatedRoute.params.subscribe((response:any)=>{
       this.userId=response.InstaId
@@ -33,17 +33,13 @@ export class DeleteAccountComponent {
             this.route.navigateByUrl('/')
             
           }, 3000);
-        //  if(this.isDeletionStarted!=true){
-        //        this.isDeleted=true
-        //        setTimeout(() => {
-        //       
-        //         this.isDeleted=false
-        //        }, 2000);
-        //  }
+      
 
         })
       
   }
+
+  //cancelling the deletion of accont
 
   cancelAccountDeletion(){
     this.activatedRoute.params.subscribe((response:any)=>{

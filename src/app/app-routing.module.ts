@@ -8,11 +8,13 @@ import { PostUploadComponent } from './post-upload/post-upload.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ProfileComponent } from './profile/profile.component';
 import { OtherProfileComponent } from './other-profile/other-profile.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { DeleteAccountComponent } from './delete-account/delete-account.component';
 import { LogOutComponent } from './log-out/log-out.component';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -42,9 +44,7 @@ const routes: Routes = [
   {
     path:'social/profile/:otherId',component:OtherProfileComponent
   },
-  {
-    path:'social/resetpassword',component:ResetPasswordComponent
-  },
+ 
   {
     path:'social/editprofile/:InstaId',component:EditProfileComponent 
   },
@@ -55,6 +55,12 @@ const routes: Routes = [
     path:'social/logout/:InstaId',component: LogOutComponent
   },{
     path:'social/search/:InstaId',component:RightSideBarComponent
+  },
+  {
+    path:'social/resetpassword',component:ResetPasswordComponent
+  },
+  {
+    path:'**',component:PageNotFoundComponent
   }
 ];
 

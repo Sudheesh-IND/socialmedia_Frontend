@@ -14,7 +14,7 @@ export class EditProfileComponent implements OnInit{
   userId:String=''
   profilepic:String=''
   isSettingsShown:boolean=true
-  profileDetails:any={}
+  profileDetails:any={} //profiledetails for holding the ngModel values
   isPassword:boolean=false
   isSuccessful:boolean=false
   notSame:boolean=false
@@ -22,6 +22,8 @@ export class EditProfileComponent implements OnInit{
   constructor(private http: HttpClient,private api:ApiService,private activatedRoute:ActivatedRoute,
     private route:Router,private fb:FormBuilder) {}
 
+
+    // the form group to check validation of the password
     resetPassword=this.fb.group({
       Password:['',[Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z/d$@$!%*?&].{8,}')]],
       Pass1:['',[Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z/d$@$!%*?&].{8,}')]],
@@ -34,6 +36,8 @@ export class EditProfileComponent implements OnInit{
    this.api.getDetails(this.userId).subscribe((response:any)=>{
      this.profilepic=response.details.profilepic[0].path
      this.profileDetails=response.details
+   },(response:any)=>{
+    this.route.navigateByUrl('**')
    })
   }
 
@@ -52,6 +56,8 @@ export class EditProfileComponent implements OnInit{
 
   }
 
+  //for editing the details
+
   editDetails(){
     this.api.editProfile(this.userId,this.profileDetails).subscribe((response:any)=>{
        this.isSuccessful=true
@@ -65,6 +71,7 @@ export class EditProfileComponent implements OnInit{
     this.isPassword=true
   }
 
+  //for editing the password
   changePassword(){
     if(this.resetPassword.valid){
       let Password=this.resetPassword.value.Password

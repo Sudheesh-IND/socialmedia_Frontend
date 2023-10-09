@@ -15,10 +15,13 @@ export class LoginComponent {
 
   constructor(private fb:FormBuilder,private api:ApiService,private route:Router){}
 
+  //form group for validation
   loginForm=this.fb.group({
     Email:['',[Validators.required,Validators.email]],
     Password:['',[Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z/d$@$!%*?&].{8,}')]],
   })
+
+  //login code
  
   login(){
     

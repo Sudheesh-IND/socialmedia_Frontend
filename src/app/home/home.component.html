@@ -15,7 +15,7 @@
                 <button style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.34);background-color: #ffffff;color: #194954;" routerLink="/social/home/{{userId}}"><i class="fa-solid fa-house m-2"></i>Home</button>
                </div>
                <div>
-                <button  class="side-btn" routerLink="/social/uploadpost/{{userId}}"><i class="fa-solid fa-image m-2"></i>Add posts</button>
+                <button  class="side-btn" routerLink="/social/uploadpost/{{userId}}"><i class="fa-solid fa-image m-2"></i>Add Shots</button>
                </div>
               
                <div>
@@ -74,7 +74,7 @@
                            <form action="" class="d-flex row"  >
                             <div class="col-2">
                                 
-                                <button  (click)="likes(posts.filename)"  class="cmnt-btn to-like"><i id="like{{i}}" class="fa-regular fa-heart" style="font-size: 2rem;"></i></button>
+                                <button  (click)="likes(posts.filename)" class="cmnt-btn to-like"><i id="{{posts.filename}}" class="fa-solid fa-heart" style="font-size: 2rem;"></i></button>
 
                                     <!-- <button *ngIf="isLikePresent" (click)="unLike(posts.filename)" class="cmnt-btn "><span class="material-symbols-outlined ">
                                         favorite

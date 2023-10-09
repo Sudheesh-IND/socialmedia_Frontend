@@ -37,6 +37,7 @@ export class ProfileComponent implements OnInit{
   constructor(private activatedRoute:ActivatedRoute,private http:HttpClient,private api:ApiService,private route:Router){}
   ngOnInit(): void {
 
+    //code for refreshing the page
     this.route.routeReuseStrategy.shouldReuseRoute = () => false;
     //getting user id
   this.activatedRoute.params.subscribe((response:any)=>{
@@ -47,6 +48,8 @@ export class ProfileComponent implements OnInit{
   //getting the specific user details
  
   }
+
+  //getting user details in profile page
   getDetails(){
     this.api.getDetails(this.userId).subscribe((details:any)=>{
       console.log(details.details.profilepic[0])
@@ -55,6 +58,7 @@ export class ProfileComponent implements OnInit{
       this.userDetails=details.details
       this.posts=details.details.posts
       console.log(this.posts)
+      //getting the counts
       this.followers=details.details.Followers.length
       this.postNumber=details.details.posts.length
       this.following=details.details.Following.length
@@ -75,18 +79,20 @@ export class ProfileComponent implements OnInit{
                this.followingDetails.push(response.details)
                console.log(this.followingDetails)
            },(response:any)=>{
+            //removing following person if the account was deleted
             this.api.unFollow(this.userId,details.details.Followers[i].followId).subscribe((response:any)=>{
 
             })
            })
       }
-
+//getting details of followers
       for(let i=0;i<details.details.Following.length;i++){
         this.api.getDetails(details.details.Following[i].followerId).subscribe((response:any)=>{
             console.log(response)  
             this.followerDetails.push(response.details)
             console.log(this.followerDetails)
         },(response:any)=>{
+          //removing the follower if account was deleted
           this.api.removePeopleWhoFollow(this.userId,details.details.Following[i].followerId).subscribe((response:any)=>{
             
           })
@@ -98,15 +104,21 @@ export class ProfileComponent implements OnInit{
           this.isPicPresent=false
           this.ifProfilePicExist=true
       }
+    },(response:any)=>{
+      //if no response page not found
+      this.route.navigateByUrl('**')
     })
   }
+
+  //function to upload profile pic
   profilePicUpload(event:any){
      if(event.target.files.length>0){
-      const file=event.target.files[0];
-      const formData=new FormData
-      formData.append('file',file)
+      const file=event.target.files[0]; //file in 0th position of files array
+      const formData=new FormData //creating a new formdata
+      formData.append('file',file) //append file in formdata
     
       console.log(file)
+      //calling the function and passing formdata
       this.api.uploadProfilePic(formData,this.userId).subscribe((response:any)=>{
         console.log(response)
         if(response){
@@ -120,6 +132,8 @@ export class ProfileComponent implements OnInit{
      }
      
   }
+
+  //getting the details of posts in modal
   getPostDetails(path:any,filename:any){
     this.postPath=path
     this.postName=filename
@@ -130,6 +144,8 @@ export class ProfileComponent implements OnInit{
     })
 
   }
+
+  //getting comments in modal
   getComments(filename:any){
       this.api.readComments(filename).subscribe((response:any)=>{
         
@@ -141,18 +157,22 @@ export class ProfileComponent implements OnInit{
           this.isCommentPresent=false
         }
        
-
+//getting the comment details and the one who put the comments
         for(let i=0;i<response.details.length;i++){
           this.api.getDetails(response.details[i].from_id).subscribe((data:any)=>{
             console.log(data.details)
+            //insewrting it to the comment object
             this.comments[i]['fromName']=data.details.Name
             this.comments[i]['profilepic']=data.details.profilepic[0].path
           })
         }
+        //sorting according to the time and date
         this.comments=this.comments.sort((a:any, b:any) => (a.date > b.date ? -1 : 1));
         console.log(this.comments)
       })
   }
+
+  //function for deleting a post
   deletePost(filename:any){
     this.api.deletePost(this.userId,filename).subscribe((response:any)=>{
       // this.route.navigateByUrl(`social/myprofile/${this.userId}`)
@@ -164,7 +184,7 @@ export class ProfileComponent implements OnInit{
     })
 
   }
-  //editing profile
+  //getting details for editing profile
   getDetailsForEditing(){
     this.isMainPage=false
     this.api.getDetails(this.userId).subscribe((response:any)=>{
@@ -173,6 +193,7 @@ export class ProfileComponent implements OnInit{
     })
   }
 
+  //function for editing profile
   editProfile(){
     this.api.editProfile(this.userId,this.editingDetails).subscribe((response:any)=>{
       this.isMainPage=true

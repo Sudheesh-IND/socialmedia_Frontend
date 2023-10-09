@@ -10,49 +10,66 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class HomeComponent implements OnInit{
 
+  //for holding id
   userId:string=''
-  followList:any={}
-  singleId:string=''
-  allposts:any[]=[]
-  singlePost:any={}
-  forName:any={}
-  showComment:boolean=false
+  followList:any={} //for holding following list
+  singleId:string='' //for holding id of following people
+  allposts:any[]=[] //for holding posts
+  singlePost:any={}  //for holding posts
+  forName:any={}  //for holding posts to insert name
+  showComment:boolean=false 
   commentInput:String=''
-  comments:any={}
-  isCommentPresent:boolean=false
-  isYourComment:boolean=false
+  comments:any={} //for holding comments
 
-  toLike:boolean=true
-  isLikePresent:boolean=false
+
+  isCommentPresent:boolean=false //boolean value for changing to comment
+  
+
+  
+  
   isFollowingAnyone:boolean=false
+  //holding profilepic
   profilepic:String=''
   commentsCount:String=''
-  isSettingsShown:Boolean=false
+
+  isSettingsShown:Boolean=false //to show settings
+
+
+  //variable for holding token
+  token:any //for holding token
 
  
   constructor(private activatedRoute:ActivatedRoute,private api:ApiService,private fb:FormBuilder,
     private route:Router){}
 
-  // commentGroup=this.fb.group({
-  //       comment:['',[Validators.required,Validators.pattern('[A-Za-z0-9]*')]]
-  // })
+
   ngOnInit(): void {
 
     //code for reloading the the same page
     this.route.routeReuseStrategy.shouldReuseRoute = () => false;
 
-
+//for takng the id from the link as params
     this.activatedRoute.params.subscribe((data:any)=>{
          this.userId=data.InstaId
     })
-    this.getDetails()
+   
+
+    this.token=localStorage.getItem('token')
+    if(this.token){
+      this.getDetails()
+    }else{
+      alert('Please Login')
+    }
+     
+    
    
 
   }
   getDetails(){
     this.api.getDetails(this.userId).subscribe((data:any)=>{
        
-      this.followList=data.details.Followers
+      if(data){
+        this.followList=data.details.Followers
       this.profilepic=data.details.profilepic[0].path
       if(this.followList.length==0){
         this.isFollowingAnyone=true
@@ -67,10 +84,11 @@ export class HomeComponent implements OnInit{
          this.forName=data.details.posts
          for(let j=0;j<this.forName.length;j++){
           
+          //inserting name and profilename of user to post array
            this.forName[j]['name']=data.details.Name
            this.forName[j]['personalId']=data.details._id
            this.forName[j]['profilepath']=data.details.profilepic[0].path
-           // console.log(this.forName[j])
+           
            this.allposts.push(this.forName[j])
            console.log(this.allposts)
 
@@ -79,14 +97,28 @@ export class HomeComponent implements OnInit{
            // console.log(this.singlePost)
 
            this.singlePost=this.allposts.sort((a:any, b:any) => (a.date > b.date ? -1 : 1));
+           console.log(this.singlePost)
            // console.log(this.singlePost)
            for(let i=0;i<this.singlePost.length;i++){
              this.api.getLikes(this.singlePost[i].filename).subscribe((response:any)=>{
                if(response){
+                //for getting total likes of posts
                  this.singlePost[i]['likescount']=response.response.likes.length
                  console.log(response.response.likes)
+
+              
+             //to know about the posts liked by you
+                 this.api.getIndividualLikes(this.userId).subscribe((response:any)=>{
+                  // console.log(response.response.filenames[i])
+                  //console.log(this.singlePost[i].filename)
+                  if(response.response.filenames.includes(this.singlePost[i].filename)){
+                   
+                    const changeColour:any=document.getElementById(`${this.singlePost[i].filename}`)
+                    changeColour.style.color='red' 
+                  }
+                 })
+
                 
-                 
                }
                
               
@@ -107,16 +139,28 @@ export class HomeComponent implements OnInit{
               
             })
            }
+
+
+
+
           
          }
          
        })
        
-   }
+     }
+      }else{
+        this.route.navigateByUrl('**')
+      }
    
+   },(data:any)=>{
+    this.route.navigateByUrl('**')
    })
 
   }
+
+
+  //function for reading the comments
 
   readComments(filename:String){
     // console.log(filename)
@@ -131,15 +175,14 @@ export class HomeComponent implements OnInit{
 
       //inserting name and profilepic of comments
       for(let i=0;i<this.comments.length;i++){
-        console.log(this.comments[i].from_id)
+        //console.log(this.comments[i].from_id)
         this.api.getDetails(this.comments[i].from_id).subscribe((response:any)=>{
-          console.log(response.details.profilepic[0].path)
+          //console.log(response.details.profilepic[0].path)
           this.comments[i]['fromprofilepic']=response.details.profilepic[0].path
           this.comments[i]['fromname']=response.details.Name
-          console.log(this.comments)
-          // if(this.userId==this.comments[i].from_id){
-          //        this.isYourComment=true
-          // }
+         // console.log(this.comments)
+         
+         
         })
       }
       
@@ -149,7 +192,11 @@ export class HomeComponent implements OnInit{
     
   }
 
+  //adding comments for a specific pic
   addComments(filename:String,to_id:String){
+    if(this.commentInput==''){
+     
+    }else{
       this.api.addComments(filename,this.userId,to_id,this.commentInput).subscribe((response:any)=>{
         
       
@@ -159,6 +206,9 @@ export class HomeComponent implements OnInit{
         
       })
     }
+    }
+
+    ///function used in go back button of comment to reload the same homepage
 
   refresh(){
     this.route.navigateByUrl(`social/home/${this.userId}`)
@@ -168,11 +218,24 @@ export class HomeComponent implements OnInit{
   likes(filename:any){
     this.api.likes(filename,this.userId).subscribe((response:any)=>{
       this.getLikes(filename)
+      console.log(response.message)
+      const changeColour:any=document.getElementById(`${filename}`)
+      if(response.message=='liked'){
+        changeColour.style.color='red' 
+      }else{
+        changeColour.style.color='white'
+      }
+      this.api.individualLikes(filename,this.userId).subscribe((response:any)=>{
+        
+      })
      
-      console.log(response)
-     
+      
     })
+
+   
   }
+
+
 
   //getting like number
   getLikes(filename:any){
@@ -183,11 +246,14 @@ export class HomeComponent implements OnInit{
         }
       })
       
+      
     }
+
+    
    
   }
 
-
+//function to show settings in sidebar and for manipulating the dom
   showSettings(){
       this.isSettingsShown=!this.isSettingsShown
       const settings:any=document.getElementById('setting')

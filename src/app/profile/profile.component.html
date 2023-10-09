@@ -11,7 +11,7 @@
             <button class="side-btn"  routerLink="/social/home/{{userId}}"><i  class="fa-solid fa-house m-2"></i>Home</button>
            </div>
            <div>
-            <button class="side-btn"  routerLink="/social/uploadpost/{{userId}}"><i class="fa-solid fa-image m-2"></i>Add posts</button>
+            <button class="side-btn"  routerLink="/social/uploadpost/{{userId}}"><i class="fa-solid fa-image m-2"></i>Add Shots</button>
            </div>
            <div>
             <button class="side-btn" routerLink="/social/messages/{{userId}}"><i class="fa-solid fa-message m-2"></i>Messages</button>
@@ -138,13 +138,13 @@
             </div>
             <div style="display: flex;flex-direction: row;justify-content: space-between;">
               <div style="margin-top: 10px;">
-                  <h6>{{likesCount}} Likes and {{commentCount}} comments</h6>
+                  <h6 style="color: #194954;">{{likesCount}} Likes and {{commentCount}} comments</h6>
               </div>
               <div>
-                <button class="edit-btn" style="width: 60px;background-color: red;margin-top: 10px;" (click)="deletePost(postName)"><i class="fa-solid fa-trash"></i></button>
+                <button class="edit-btn" style="width: 60px;background-color: red;margin-top: 10px;" (click)="deletePost(postName)"><i class="fa-solid fa-trash text-light"></i></button>
 
            
-                <button type="button" style="width: 60px;background-color: green;margin-top: 10px; " class="edit-btn mx-2" data-bs-dismiss="modal"><i class="material-symbols-outlined">
+                <button type="button" style="width: 60px;background-color: green;margin-top: 10px; " class="edit-btn mx-2" data-bs-dismiss="modal"><i class="material-symbols-outlined text-light">
                   west
                 </i></button>
               </div>
@@ -167,11 +167,11 @@
                      <img style="width: 40px;height: 40px;border-radius: 50%;" src="http://localhost:5000/{{comment.profilepic}}" alt="">
                   </div>
                   <div>
-                    <h6 class="mt-2 ps-2">{{comment.fromName}}</h6>
+                    <h6 style="color: #194954;" class="mt-2 ps-2">{{comment.fromName}}</h6>
                   </div>
 
                 </div>
-                <div class="comment">
+                <div class="comment" style="background-color: #194954;">
                     <h6 class="p-3">{{comment.comment}}</h6>
                 </div>
               </div>
