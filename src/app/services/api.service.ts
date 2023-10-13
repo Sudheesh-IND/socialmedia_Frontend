@@ -168,13 +168,7 @@ export class ApiService {
   }
 
   //changePassword
-  changePassword(Email:any,Password:any){
-    const body={
-      Email,Password
-    }
-    return this.http.post('http://localhost:5000/social/changepassword',body,this.appendToken())
-
-  }
+  
   //change password from profile
   changePasswordFromProfile(userId:any,Password:any){
     const body={
@@ -225,11 +219,18 @@ export class ApiService {
   }
 
   //change oassword
-  changePass(Email:any){
+  getOtp(Email:any){
     const body={
       Email
     }
     return this.http.post('http://localhost:5000/social/changepass',body)
+  }
+
+  changePassword(Email:any,Password:any){
+    const body={
+      Email,Password
+    }
+    return this.http.post('http://localhost:5000/social/changepass2',body)
   }
 
 }
